@@ -462,3 +462,57 @@ footer {
         text-align: center;
     }
 }
+/* =========================
+   HASIL UJIAN
+========================= */
+
+.result-card {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.result-card h2 {
+    color: #0875C9;
+    margin-bottom: 8px;
+}
+
+.result-message {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.score-box {
+    background: #EAF5FF;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.score-box span {
+    display: block;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.score-box strong {
+    display: block;
+    font-size: 48px;
+    color: #0875C9;
+}
+
+.result-info {
+    text-align: left;
+    border-top: 1px solid #E0E0E0;
+    padding-top: 20px;
+    margin-bottom: 25px;
+}
+
+.result-info p {
+    padding: 8px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
