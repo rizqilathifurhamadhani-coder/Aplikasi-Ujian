@@ -229,3 +229,236 @@ footer {
 .back-link:hover {
     text-decoration: underline;
 }
+/* =========================
+   HALAMAN UJIAN
+========================= */
+
+.exam-header {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.exam-header h2 {
+    color: #0875C9;
+    margin-bottom: 6px;
+}
+
+.exam-header p {
+    color: #666;
+}
+
+.timer-box {
+    background: #0875C9;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.timer-box span {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.timer-box strong {
+    font-size: 24px;
+}
+
+.warning-box {
+    background: #FFF7E6;
+    border-left: 5px solid #F0A000;
+    padding: 15px 18px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+.warning-box strong {
+    color: #9A6500;
+}
+
+.warning-box p {
+    margin-top: 6px;
+    color: #665000;
+}
+
+.camera-box {
+    background: white;
+    padding: 15px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.camera-box p {
+    color: #188038;
+    margin-top: 5px;
+}
+
+#participant-camera {
+    width: 150px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #222;
+}
+
+.question-card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.question-number {
+    display: inline-block;
+    background: #EAF5FF;
+    color: #0875C9;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.question-text {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px;
+    border: 1px solid #D8EAF7;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #EAF5FF;
+    border-color: #0875C9;
+}
+
+.option input {
+    margin-top: 3px;
+    accent-color: #0875C9;
+}
+
+.finish-area {
+    text-align: center;
+    padding: 20px 0 35px;
+}
+
+.finish-btn {
+    background: #188038;
+    font-size: 16px;
+    padding: 14px 30px;
+}
+
+.finish-btn:hover {
+    background: #146C2E;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+}
+
+.dashboard-header {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-header h2 {
+    color: #0875C9;
+    margin-bottom: 5px;
+}
+
+.dashboard-header p {
+    color: #666;
+}
+
+.logout-btn {
+    background: #D93025;
+}
+
+.logout-btn:hover {
+    background: #B3261E;
+}
+
+.participant-info p {
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   TAMPILAN HP
+========================= */
+
+@media (max-width: 600px) {
+
+    .exam-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .timer-box {
+        width: 100%;
+    }
+
+    .camera-box {
+        align-items: flex-start;
+    }
+
+    #participant-camera {
+        width: 120px;
+        height: 85px;
+    }
+
+    .question-card {
+        padding: 17px;
+    }
+
+    .question-text {
+        font-size: 16px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .logout-btn {
+        text-align: center;
+    }
+}
