@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Hasil Ujian - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+        <h2>Hasil Ujian</h2>
+        <p>Lihat nilai seluruh peserta.</p>
+    </div>
+
+    <a href="/admin/dashboard" class="btn">
+        ← Dashboard
+    </a>
+
+</div>
+
+<div class="card">
+
+    <h2>Daftar Nilai</h2>
+
+    {% if hasil_list %}
+
+    <div class="table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Peserta</th>
+                    <th>Ujian</th>
+                    <th>Benar</th>
+                    <th>Jumlah Soal</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for hasil in hasil_list %}
+
+                <tr>
+
+                    <td>{{ loop.index }}</td>
+
+                    <td>
+                        {{ hasil["nama_peserta"] }}
+                    </td>
+
+                    <td>
+                        {{ hasil["nama_ujian"] }}
+                    </td>
+
+                    <td>
+                        {{ hasil["jumlah_benar"] }}
+                    </td>
+
+                    <td>
+                        {{ hasil["jumlah_soal"] }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ hasil["nilai"] }}
+                        </strong>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+        <p>Belum ada hasil ujian.</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
