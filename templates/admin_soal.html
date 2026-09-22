@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Soal - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+        <h2>Kelola Soal</h2>
+        <p>
+            Ujian:
+            <strong>{{ exam["nama"] }}</strong>
+        </p>
+    </div>
+
+    <a href="/admin/ujian" class="btn">
+        ← Kembali
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    <h2>Tambah Soal</h2>
+
+    {% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="form-group">
+            <label>Pertanyaan</label>
+
+            <textarea
+                name="pertanyaan"
+                rows="5"
+                placeholder="Masukkan pertanyaan..."
+                required></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label>Opsi A</label>
+
+            <input
+                type="text"
+                name="opsi_a"
+                placeholder="Jawaban A"
+                required>
+        </div>
+
+
+        <div class="form-group">
+            <label>Opsi B</label>
+
+            <input
+                type="text"
+                name="opsi_b"
+                placeholder="Jawaban B"
+                required>
+        </div>
+
+
+        <div class="form-group">
+            <label>Opsi C</label>
+
+            <input
+                type="text"
+                name="opsi_c"
+                placeholder="Jawaban C"
+                required>
+        </div>
+
+
+        <div class="form-group">
+            <label>Opsi D</label>
+
+            <input
+                type="text"
+                name="opsi_d"
+                placeholder="Jawaban D"
+                required>
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Jawaban Benar</label>
+
+            <select name="jawaban_benar" required>
+
+                <option value="">
+                    -- Pilih Jawaban --
+                </option>
+
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Poin</label>
+
+            <input
+                type="number"
+                name="poin"
+                min="1"
+                value="1"
+                required>
+
+        </div>
+
+
+        <button type="submit" class="btn">
+            + Tambah Soal
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="card">
+
+    <h2>Daftar Soal</h2>
+
+    {% if questions %}
+
+        {% for question in questions %}
+
+        <div class="question-card">
+
+            <div class="question-number">
+                Soal {{ loop.index }}
+            </div>
+
+            <div class="question-text">
+                {{ question["pertanyaan"] }}
+            </div>
+
+            <p>
+                <strong>A.</strong>
+                {{ question["opsi_a"] }}
+            </p>
+
+            <p>
+                <strong>B.</strong>
+                {{ question["opsi_b"] }}
+            </p>
+
+            <p>
+                <strong>C.</strong>
+                {{ question["opsi_c"] }}
+            </p>
+
+            <p>
+                <strong>D.</strong>
+                {{ question["opsi_d"] }}
+            </p>
+
+            <p>
+                Jawaban benar:
+                <strong>{{ question["jawaban_benar"] }}</strong>
+            </p>
+
+            <p>
+                Poin:
+                <strong>{{ question["poin"] }}</strong>
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Belum ada soal untuk ujian ini.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
