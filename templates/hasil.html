@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Hasil Ujian - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="result-card">
+
+    <h2>Ujian Selesai</h2>
+
+    <p class="result-message">
+        Terima kasih telah mengikuti ujian.
+    </p>
+
+    <div class="score-box">
+        <span>Nilai Kamu</span>
+        <strong>{{ hasil["nilai"] }}</strong>
+    </div>
+
+    <div class="result-info">
+
+        <p>
+            <strong>Peserta:</strong>
+            {{ peserta["nama"] }}
+        </p>
+
+        <p>
+            <strong>Ujian:</strong>
+            {{ exam["nama"] }}
+        </p>
+
+        <p>
+            <strong>Jumlah Benar:</strong>
+            {{ hasil["jumlah_benar"] }}
+        </p>
+
+        <p>
+            <strong>Jumlah Soal:</strong>
+            {{ hasil["jumlah_soal"] }}
+        </p>
+
+    </div>
+
+    <a href="/dashboard" class="btn">
+        Kembali ke Dashboard
+    </a>
+
+</div>
+
+{% endblock %}
