@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+    <h1>CBT UJIAN</h1>
+    <p>Computer Based Test</p>
+
+    <a href="/login" class="btn">
+        Masuk sebagai Peserta
+    </a>
+</div>
+
+<div class="card">
+    <h2>Jadwal Ujian</h2>
+
+    {% if exams %}
+        {% for exam in exams %}
+        <div class="exam-card">
+            <h3>{{ exam["nama"] }}</h3>
+            <p>{{ exam["deskripsi"] or "Ujian CBT" }}</p>
+            <p>
+                Durasi: {{ exam["durasi_menit"] }} menit
+            </p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Belum ada ujian yang tersedia.</p>
+    {% endif %}
+</div>
+
+<div class="admin-box">
+    <h3>Administrator</h3>
+    <p>Kelola peserta, soal, ujian, monitoring, dan hasil.</p>
+
+    <a href="/admin/login" class="btn btn-admin">
+        Login Admin
+    </a>
+</div>
+
+{% endblock %}
