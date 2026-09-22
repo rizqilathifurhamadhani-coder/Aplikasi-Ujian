@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exam["nama"] }} - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="exam-header">
+
+    <div>
+        <h2>{{ exam["nama"] }}</h2>
+        <p>Peserta: {{ peserta["nama"] }}</p>
+    </div>
+
+    <div class="timer-box">
+        <span>Sisa Waktu</span>
+        <strong id="timer">--:--</strong>
+    </div>
+
+</div>
+
+<div class="warning-box">
+    <strong>Perhatian!</strong>
+    <p>
+        Jangan meninggalkan halaman ujian atau keluar dari mode layar penuh.
+        Pelanggaran sebanyak 3 kali akan mengakhiri ujian secara otomatis. pengerjaan anda direkam oleh webcam
+    </p>
+
+    <p>
+        Pelanggaran:
+        <strong>
+            <span id="violation-count">{{ violation_count }}</span>/3
+        </strong>
+    </p>
+</div>
+
+<div class="camera-box">
+    <div>
+        <strong>Kamera Peserta</strong>
+        <p id="camera-status">Meminta izin kamera...</p>
+    </div>
+
+    <video id="participant-camera"
+           autoplay
+           muted
+           playsinline>
+    </video>
+</div>
+
+<form id="exam-form">
+
+    {% for question in questions %}
+
+    <div class="question-card">
+
+        <div class="question-number">
+            Soal {{ loop.index }}
+        </div>
+
+        <div class="question-text">
+            {{ question["pertanyaan"] }}
+        </div>
+
+        <div class="options">
+
+            <label class="option">
+                <input type="radio"
+                       name="question_{{ question['id'] }}"
+                       value="A">
+                <span>A. {{ question["opsi_a"] }}</span>
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="question_{{ question['id'] }}"
+                       value="B">
+                <span>B. {{ question["opsi_b"] }}</span>
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="question_{{ question['id'] }}"
+                       value="C">
+                <span>C. {{ question["opsi_c"] }}</span>
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="question_{{ question['id'] }}"
+                       value="D">
+                <span>D. {{ question["opsi_d"] }}</span>
+            </label>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <div class="finish-area">
+
+        <button type="button"
+                id="finish-button"
+                class="btn finish-btn">
+            Selesaikan Ujian
+        </button>
+
+    </div>
+
+</form>
+
+<script>
+const examId = {{ exam["id"] }};
+const durationMinutes = {{ exam["durasi_menit"] }};
+const violationLimit = 3;
+
+let remainingSeconds = durationMinutes * 60;
+let examFinished = false;
+
+const timerElement = document.getElementById("timer");
+
+function updateTimer() {
+
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+
+    timerElement.textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+    if (remainingSeconds <= 0) {
+        finishExam();
+        return;
+    }
+
+    remainingSeconds--;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+
+// ==============================
+// KAMERA
+// ==============================
+
+const video = document.getElementById("participant-camera");
+const cameraStatus = document.getElementById("camera-status");
+
+navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: false
+})
+.then(stream => {
+
+    video.srcObject = stream;
+
+    cameraStatus.textContent =
+        "Kamera aktif";
+
+})
+.catch(error => {
+
+    cameraStatus.textContent =
+        "Kamera belum diizinkan.";
+
+});
+
+
+// ==============================
+// SIMPAN JAWABAN
+// ==============================
+
+document.querySelectorAll(
+    'input[type="radio"]'
+).forEach(input => {
+
+    input.addEventListener("change", function() {
+
+        fetch("/api/save-answer", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                exam_id: examId,
+
+                question_id:
+                    this.name.replace("question_", ""),
+
+                answer: this.value
+
+            })
+
+        });
+
+    });
+
+});
+
+
+// ==============================
+// PELANGGARAN
+// ==============================
+
+let violationCount =
+    {{ violation_count }};
+
+async function reportViolation() {
+
+    if (examFinished) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/api/violation",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    exam_id: examId
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        violationCount = data.violation_count;
+
+        document.getElementById(
+            "violation-count"
+        ).textContent = violationCount;
+
+        if (data.finished) {
+            examFinished = true;
+
+            alert(
+                "Ujian otomatis selesai karena pelanggaran mencapai 3 kali."
+            );
+
+            window.location.href =
+                "/hasil/" + examId;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Gagal mencatat pelanggaran:",
+            error
+        );
+
+    }
+}
+
+
+// Keluar dari halaman/tab
+document.addEventListener(
+    "visibilitychange",
+    function() {
+
+        if (
+            document.hidden &&
+            !examFinished
+        ) {
+            reportViolation();
+        }
+
+    }
+);
+
+
+// Keluar dari fullscreen
+document.addEventListener(
+    "fullscreenchange",
+    function() {
+
+        if (
+            !document.fullscreenElement &&
+            !examFinished
+        ) {
+            reportViolation();
+        }
+
+    }
+);
+
+
+// ==============================
+// SELESAIKAN UJIAN
+// ==============================
+
+document.getElementById(
+    "finish-button"
+).addEventListener(
+    "click",
+    function() {
+
+        const yakin = confirm(
+            "Apakah kamu yakin ingin menyelesaikan ujian?"
+        );
+
+        if (yakin) {
+            finishExam();
+        }
+
+    }
+);
+
+async function finishExam() {
+
+    if (examFinished) {
+        return;
+    }
+
+    examFinished = true;
+
+    try {
+
+        const response = await fetch(
+            "/finish-exam/" + examId,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            window.location.href =
+                "/hasil/" + examId;
+
+        } else {
+
+            examFinished = false;
+
+            alert(
+                "Ujian gagal diselesaikan."
+            );
+
+        }
+
+    } catch (error) {
+
+        examFinished = false;
+
+        alert(
+            "Terjadi kesalahan saat menyelesaikan ujian."
+        );
+
+    }
+}
+
+
+// ==============================
+// FULLSCREEN
+// ==============================
+
+document.documentElement.requestFullscreen
+&& document.documentElement.requestFullscreen()
+.catch(() => {});
+
+</script>
+
+{% endblock %}
