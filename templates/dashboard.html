@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Peserta - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <div>
+        <h2>Selamat datang, {{ peserta["nama"] }}</h2>
+        <p>Silakan pilih ujian yang tersedia.</p>
+    </div>
+
+    <a href="/logout" class="btn logout-btn">
+        Keluar
+    </a>
+</div>
+
+<div class="card">
+    <h2>Ujian Tersedia</h2>
+
+    {% if exams %}
+
+        {% for exam in exams %}
+
+        <div class="exam-card">
+            <h3>{{ exam["nama"] }}</h3>
+
+            <p>
+                {{ exam["deskripsi"] or "Ujian CBT" }}
+            </p>
+
+            <p>
+                Durasi:
+                <strong>{{ exam["durasi_menit"] }} menit</strong>
+            </p>
+
+            <br>
+
+            <a href="/ujian/{{ exam['id'] }}" class="btn">
+                Mulai Ujian
+            </a>
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Belum ada ujian yang tersedia.</p>
+        </div>
+
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Informasi Peserta</h2>
+
+    <div class="participant-info">
+        <p>
+            <strong>Nama:</strong>
+            {{ peserta["nama"] }}
+        </p>
+
+        <p>
+            <strong>Kode Peserta:</strong>
+            {{ peserta["kode"] }}
+        </p>
+
+        <p>
+            <strong>Sekolah:</strong>
+            {{ peserta["sekolah"] or "-" }}
+        </p>
+    </div>
+</div>
+
+{% endblock %}
