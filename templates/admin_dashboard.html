@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+        <h2>Dashboard Administrator</h2>
+        <p>Kelola sistem CBT UJIAN</p>
+    </div>
+
+    <a href="/admin/logout" class="btn logout-btn">
+        Keluar
+    </a>
+
+</div>
+
+<div class="card">
+
+    <h2>Menu Administrator</h2>
+
+    <div class="admin-menu">
+
+        <a href="/admin/peserta" class="admin-menu-item">
+            <strong>Peserta</strong>
+            <span>Kelola data peserta ujian</span>
+        </a>
+
+        <a href="/admin/ujian" class="admin-menu-item">
+            <strong>Ujian</strong>
+            <span>Buat dan kelola ujian</span>
+        </a>
+
+        <a href="/admin/soal" class="admin-menu-item">
+            <strong>Soal</strong>
+            <span>Kelola pertanyaan dan jawaban</span>
+        </a>
+
+        <a href="/admin/monitoring" class="admin-menu-item">
+            <strong>Monitoring</strong>
+            <span>Pantau peserta saat ujian</span>
+        </a>
+
+        <a href="/admin/hasil" class="admin-menu-item">
+            <strong>Hasil Ujian</strong>
+            <span>Lihat nilai peserta</span>
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
