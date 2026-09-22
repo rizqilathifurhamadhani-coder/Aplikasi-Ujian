@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Login Peserta - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h2>Login Peserta</h2>
+
+        <p class="login-subtitle">
+            Masukkan kode peserta untuk mengikuti ujian.
+        </p>
+
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label for="kode">Kode Peserta</label>
+
+                <input
+                    type="text"
+                    id="kode"
+                    name="kode"
+                    placeholder="Contoh: P001"
+                    required
+                    autocomplete="off"
+                >
+            </div>
+
+            <button type="submit" class="btn login-btn">
+                Masuk
+            </button>
+
+        </form>
+
+        <a href="/" class="back-link">
+            ← Kembali ke halaman utama
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
