@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Monitoring - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <div>
+        <h2>Monitoring Peserta</h2>
+        <p>Pantau peserta yang sedang mengikuti ujian.</p>
+    </div>
+
+    <a href="/admin/dashboard" class="btn">
+        ← Dashboard
+    </a>
+</div>
+
+<div class="card">
+
+    <h2>Peserta Sedang Ujian</h2>
+
+    {% if sessions %}
+
+        <div class="monitor-grid">
+
+            {% for session in sessions %}
+
+            <div class="monitor-card">
+
+                <div class="monitor-video">
+                    <video
+                        id="video-{{ session['peserta_id'] }}"
+                        autoplay
+                        playsinline
+                        muted>
+                    </video>
+                </div>
+
+                <h3>
+                    {{ session["nama"] }}
+                </h3>
+
+                <p>
+                    Kode:
+                    <strong>{{ session["kode"] }}</strong>
+                </p>
+
+                <p>
+                    Ujian:
+                    {{ session["nama_ujian"] }}
+                </p>
+
+                <p class="online-status">
+                    ● Sedang ujian
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Tidak ada peserta yang sedang mengikuti ujian.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+<script src="/static/js/monitoring.js"></script>
+
+{% endblock %}
