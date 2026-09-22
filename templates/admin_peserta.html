@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Peserta - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <div>
+        <h2>Kelola Peserta</h2>
+        <p>Tambah dan lihat peserta ujian.</p>
+    </div>
+
+    <a href="/admin/dashboard" class="btn">
+        ← Dashboard
+    </a>
+</div>
+
+<div class="card">
+    <h2>Tambah Peserta</h2>
+
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="form-group">
+            <label>Nama Peserta</label>
+            <input
+                type="text"
+                name="nama"
+                placeholder="Nama lengkap peserta"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Kode Peserta</label>
+            <input
+                type="text"
+                name="kode"
+                placeholder="Contoh: P001"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Sekolah</label>
+            <input
+                type="text"
+                name="sekolah"
+                placeholder="Nama sekolah">
+        </div>
+
+        <button type="submit" class="btn">
+            + Tambah Peserta
+        </button>
+
+    </form>
+</div>
+
+<div class="card">
+    <h2>Daftar Peserta</h2>
+
+    {% if peserta_list %}
+
+    <div class="table-wrapper">
+        <table class="data-table">
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kode</th>
+                    <th>Sekolah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for peserta in peserta_list %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ peserta["nama"] }}</td>
+                    <td>{{ peserta["kode"] }}</td>
+                    <td>{{ peserta["sekolah"] or "-" }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+
+    <p>Belum ada peserta.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
