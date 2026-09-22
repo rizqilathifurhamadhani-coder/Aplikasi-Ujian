@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Ujian - CBT UJIAN{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <div>
+        <h2>Kelola Ujian</h2>
+        <p>Buat dan kelola jadwal ujian.</p>
+    </div>
+
+    <a href="/admin/dashboard" class="btn">
+        ← Dashboard
+    </a>
+</div>
+
+<div class="card">
+    <h2>Buat Ujian Baru</h2>
+
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="form-group">
+            <label>Nama Ujian</label>
+            <input
+                type="text"
+                name="nama"
+                placeholder="Contoh: Ujian IPA Kelas 8"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <input
+                type="text"
+                name="deskripsi"
+                placeholder="Deskripsi ujian">
+        </div>
+
+        <div class="form-group">
+            <label>Durasi (menit)</label>
+            <input
+                type="number"
+                name="durasi_menit"
+                min="1"
+                value="60"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Waktu Mulai</label>
+            <input
+                type="datetime-local"
+                name="mulai"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Waktu Selesai</label>
+            <input
+                type="datetime-local"
+                name="selesai"
+                required>
+        </div>
+
+        <button type="submit" class="btn">
+            + Buat Ujian
+        </button>
+
+    </form>
+</div>
+
+<div class="card">
+    <h2>Daftar Ujian</h2>
+
+    {% if exams %}
+
+        {% for exam in exams %}
+
+        <div class="exam-card">
+
+            <h3>{{ exam["nama"] }}</h3>
+
+            <p>
+                {{ exam["deskripsi"] or "Tidak ada deskripsi" }}
+            </p>
+
+            <p>
+                Durasi:
+                <strong>{{ exam["durasi_menit"] }} menit</strong>
+            </p>
+
+            <p>
+                Mulai:
+                {{ exam["mulai"] }}
+            </p>
+
+            <p>
+                Selesai:
+                {{ exam["selesai"] }}
+            </p>
+
+            <br>
+
+            <a
+                href="/admin/soal/{{ exam['id'] }}"
+                class="btn">
+                Kelola Soal
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Belum ada ujian.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
